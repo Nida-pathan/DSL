@@ -62,10 +62,10 @@ int main(){
         }
     }
     if(!s1.isEmpty()){
-        cout<<"Expression is well-parenthesized."<<endl;
+        cout<<"Expression is not well-parenthesized."<<endl;
     }
     else{
-        cout<<"Expression is not well-parenthesized."<<endl;
+        cout<<"Expression is well-parenthesized."<<endl;
     }
     return 0;
 }
