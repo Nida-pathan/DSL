@@ -6,6 +6,7 @@ b) To determine the frequency of occurrence of particular character in the strin
 c) To check whether given string is palindrome or not
 d) To display index of first appearance of the substring
 e) To count the occurrences of each word in a given string
+f)To copy string
 """
 
 def display_longest_word():
@@ -111,6 +112,16 @@ def count_occurences():
     for i in range(len(word_list)):
         print(word_list[i], ":", count[i])
 
+def copy_string():
+    string = str(input("Enter the string to be copied: "))
+    copied_string = ""  
+    
+    for char in string:
+        copied_string += char
+
+    print("Original String: ", string)
+    print("Copied String: ", copied_string)
+    return copied_string
         
 def main():
     while True:
@@ -119,10 +130,11 @@ def main():
         print("\t3: To check whether given string is palindrome or not")
         print("\t4: To display index of first appearance of the substring")
         print("\t5: To count the occurrences of each word in a given string")
-        print("\t6: Exit")
+        print("\t6: To copy string")
+        print("\t7: Exit")
 
         ch = int(input("Enter your choice: "))
-        if ch >= 6:
+        if ch >= 7:
             print("End of program")
             break
 
@@ -140,6 +152,8 @@ def main():
 
         elif ch==5:
             count_occurences()
+        
+        elif ch ==6:
+            copy_string()
 
 main()
-
