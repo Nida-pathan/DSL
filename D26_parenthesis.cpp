@@ -1,192 +1,71 @@
 #include<iostream>
+#define size 10
 using namespace std;
-
-class stack1
-{
+class stackexp{
     int top;
-    char stack2[100];
-    char infix[100];
-public:
-    stack1()
-    {
-        top = -1;
+    char stk[size];
+    public:
+    stackexp():top(-1){}
+    void push(char x){
+        if(!isFull()){
+            top++;
+            stk[top]=x;
+        }
+        else
+        cout<<"Stack is overflow."<<endl;
     }
-    void infix1();
-    void check();
-    int check1(char tkn);
-    void push(int x);
-    int pop();
-    bool isEmpty();
-    bool isFull();
-    void display();
+    char pop(){
+        if(!isEmpty()){
+            char s=stk[top];
+            top--;
+            return s;
+        }
+        else{
+            cout<<"Stack is underflow."<<endl;
+            return '\0';
+        }
+    }
+    int isFull(){
+        return top==size-1;
+    }
+    int isEmpty(){
+        return top==-1;
+    }
 };
-
-bool stack1::isEmpty()
-{
-    if(top == -1)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+int matchingPair(char open, char close){
+    return (open=='(' && close==')')||(open=='[' && close==']')||(open=='{' && close=='}');
 }
-
-bool stack1::isFull()
-{
-    if(top == 100 - 1)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-void stack1::push(int x)
-{
-    if(!isFull())
-    {
-        top++;
-        stack2[top] = x;
-    }
-    else
-    {
-        cout<<"Stack is full!!\n";
-    }
-}
-
-int stack1::pop()
-{
-    int x;
-    if(!isEmpty())
-    {
-        x = stack2[top];
-        top--;
-        return x;
-    }
-    else
-    {
-        cout<<"Stack is empty!!\n";
-    }
-}
-
-int stack1::check1(char tkn)
-{
-    if(isEmpty())
-    {
+int main(){
+    stackexp s1;
+    char exp[20], ch;
+    int i=0;
+    cout<<"\n\t\tParenthesis Checker!!!\n";
+    cout<<"Enter expression: ";
+    cin>>exp;
+    if(exp[0]==')' || exp[0]==']' || exp[0]=='}'){
+        cout<<"Invalid expression."<<endl;
         return 0;
     }
-    if(stack2[top] == '(')
-    {
-        if(tkn == ')')
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    if(stack2[top] == '{')
-    {
-        if(tkn == '}')
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    if(stack2[top] == '[')
-    {
-        if(tkn == ']')
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-}
-
-void stack1::check()
-{
-    char tkn;
-    int x = 0;
-    for(int i = 0; infix[i]!='\0'; i++)
-    {
-        tkn = infix[i];
-        if(tkn == '('||tkn == ')'||tkn == '['||tkn == ']'||tkn == '{'||tkn == '}')
-        {
-            if(tkn == '('||tkn == '['||tkn == '{')
-            {
-                push(tkn);
+    else{
+        while(exp[i]!='\0'){
+            ch=exp[i];
+            if(ch=='(' || ch=='[' || ch=='{'){
+                s1.push(ch);
             }
-            if(tkn == '}'||tkn == ']'||tkn == ')')
-            {
-                x = check1(tkn);
-                if(x == 1)
-                {
-                    pop();
-                }
-                else
-                {
-                    push(tkn);
-                    break;
+            else if(ch==')' || ch=='}' || ch==']'){
+                if(s1.isEmpty() || !matchingPair(s1.pop(), ch)){
+                    cout<<"Expression is not well parenthesized."<<endl;
+                    return 0;
                 }
             }
+            i++;
         }
     }
-    if(!isEmpty())
-    {
-        cout<<"Equation is not paranthesized!!\n";
+    if(!s1.isEmpty()){
+        cout<<"Expression is well-parenthesized."<<endl;
     }
-    else
-    {
-        cout<<"Equation is paranthesized!!\n";
+    else{
+        cout<<"Expression is not well-parenthesized."<<endl;
     }
-}
-
-void stack1::infix1()
-{
-    cout<<"\nEnter infix expression(end expression with '#'): ";
-    for(int  i = 0; i < 100; i++)
-    {
-        cin>>infix[i];
-        if(infix[i] == '#')
-        {
-            infix[i] = '\0';
-            break;
-        }
-    }
-}
-
-void stack1::display()
-{
-    for(int  i = 0; infix[i]!= '\0'; i++)
-    {
-        cout<<infix[i];
-    }
-    cout<<"\n";
-}
-
-int main()
-{
-    int ch = 0;
-    do
-    {
-        stack1 obj;
-        obj.infix1();
-        obj.display();
-        obj.check();
-        cout<<"\nDO YOU WANT TO CHECK ANOTHER EXPRESSION?\n";
-        cout<<"1. YES \n2. NO \n";
-        cin>>ch;
-    }while(ch == 1);
     return 0;
 }
